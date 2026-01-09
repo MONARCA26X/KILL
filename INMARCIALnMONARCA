@@ -2,13 +2,32 @@ local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xccxk/LIB-GNIK/refs/heads/main/GNIK-INKGG"))()
+local success, data = pcall(function()
+    return game:HttpGet("https://raw.githubusercontent.com/MONARCA26X/MONARCA-Whitelist-/refs/heads/main/whitelist.json")
+end)
+
+if not success then
+    LocalPlayer:Kick("Error al verificar whitelist.")
+    return
+end
+
+local list = HttpService:JSONDecode(data)
+local id = tostring(LocalPlayer.UserId)
+
+if not list[id] then
+    LocalPlayer:Kick("Chinga tu madre")
+    return
+end
+
+print("Acceso autorizado")
+
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/iblameaabis/Ililililililililililililil/refs/heads/main/W%20UI"))()
 
 local player = game.Players.LocalPlayer
 local displayName = player.DisplayName or player.Name
 
-local window = library:AddWindow("PRIVATE SCRIPT BY MONARCA 26 | | Bienvenido " .. displayName, {
-    main_color = Color3.fromRGB(0, 0, 139),
+local window = library:AddWindow("PRIVATE SCRIPT BY MONARCA 26 | | Hello " .. displayName, {
+    main_color = Color3.fromRGB(139, 0, 0),
     min_size = Vector2.new(630, 900),
     can_resize = false,
 })
@@ -4877,6 +4896,6 @@ end)
 local Credits = window:AddTab("Credits")
 
 Credits:AddLabel("MONARCA26")
-Credits:AddLabel("King")
-Credits:AddLabel("Andre")
-Credits:AddLabel("Dilan")
+Credits:AddLabel("KINGxMATHEW")
+Credits:AddLabel("MARCIAL")
+Credits:AddLabel("MrMyers")
