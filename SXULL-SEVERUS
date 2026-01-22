@@ -1,28 +1,10 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/MONARCA26X/LIBRER-A/refs/heads/main/GNIK-INKGG", true))()
 
---[[
-    ╔══════════════════════════════════════════════════════════╗
-    ║                 Muscle Legends Companion                 ║
-    ║                    Version: 4.0.0                        ║
-    ║                 Developed by: MyersDev                   ║
-    ║      All rights reserved © 2024 - Professional Edition    ║
-    ╚══════════════════════════════════════════════════════════╝
-]]
-
--- ================================================================
---                          INITIALIZATION
--- ================================================================
-
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xccxk/LIBPHEOX/refs/heads/main/BYMYERS", true))()
-
-local window = library:AddWindow("Private MyersDev", {
+local window = library:AddWindow("Private SXULL", {
     main_color = Color3.fromRGB(0, 0, 0),
     min_size = Vector2.new(650, 870),
     can_resize = true,
 })
-
--- ================================================================
---                          SERVICES
--- ================================================================
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -34,149 +16,6 @@ local StarterGui = game:GetService("StarterGui")
 
 local LocalPlayer = Players.LocalPlayer
 
--- ================================================================
---                           UTILITIES
--- ================================================================
-
-local function FormatNumber(value)
-    local suffixes = {"", "K", "M", "B", "T", "Qa", "Qi"}
-    local index = 1
-    while value >= 1000 and index < #suffixes do
-        value = value / 1000
-        index = index + 1
-    end
-    return string.format("%.2f%s", value, suffixes[index])
-end
-
-local function FormatNumberWithCommas(value)
-    local formatted = tostring(value):reverse():gsub("(%d%d%d)", "%1,"):reverse()
-    return formatted:gsub("^,", "")
-end
-
-local function FormatDisplay(value)
-    local normal = FormatNumberWithCommas(value)
-    local abbreviated = FormatNumber(value)
-    return "[ " .. normal .. " | " .. abbreviated .. " ]"
-end
-
--- ================================================================
---                           AUTO HP BILLBOARD
--- ================================================================
-
-task.spawn(function()
-    repeat task.wait() until game:IsLoaded()
-    task.wait(1)
-
-    local suffixes = {
-        {"Qi", 1e18},
-        {"Qa", 1e15},
-        {"T",  1e12},
-        {"B",  1e9},
-        {"M",  1e6},
-        {"K",  1e3},
-    }
-
-    local function formatNumber(n)
-        for _, s in ipairs(suffixes) do
-            local name, val = s[1], s[2]
-            if n >= val then
-                return string.format("%.2f%s", n / val, name)
-            end
-        end
-        return tostring(math.floor(n))
-    end
-
-    local function createBillboard(humanoid, character)
-        if not character:FindFirstChild("Head") then return end
-
-        local old = character:FindFirstChild("HP_BILLBOARD")
-        if old then old:Destroy() end
-
-        local billboard = Instance.new("BillboardGui")
-        billboard.Name = "HP_BILLBOARD"
-        billboard.Size = UDim2.new(6, 0, 1.2, 0)
-        billboard.StudsOffset = Vector3.new(0, 3.5, 0)
-        billboard.AlwaysOnTop = true
-        billboard.MaxDistance = 200
-        billboard.Parent = character.Head
-
-        local frame = Instance.new("Frame")
-        frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-        frame.BackgroundTransparency = 0.3
-        frame.Size = UDim2.new(1, 0, 1, 0)
-        frame.BorderSizePixel = 0
-        frame.Parent = billboard
-
-        local corner = Instance.new("UICorner")
-        corner.CornerRadius = UDim.new(0, 8)
-        corner.Parent = frame
-
-        local bar = Instance.new("Frame")
-        bar.BackgroundColor3 = Color3.fromRGB(255, 70, 70)
-        bar.Size = UDim2.new(1, 0, 1, 0)
-        bar.BorderSizePixel = 0
-        bar.Parent = frame
-
-        local gradient = Instance.new("UIGradient")
-        gradient.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
-        })
-        gradient.Parent = bar
-
-        local stroke = Instance.new("UIStroke")
-        stroke.Thickness = 2
-        stroke.Color = Color3.fromRGB(0, 0, 0)
-        stroke.Transparency = 0.7
-        stroke.Parent = bar
-
-        local label = Instance.new("TextLabel")
-        label.BackgroundTransparency = 1
-        label.Size = UDim2.new(1, 0, 1, 0)
-        label.TextColor3 = Color3.new(1, 1, 1)
-        label.Font = Enum.Font.GothamBold
-        label.TextSize = 18
-        label.TextStrokeTransparency = 0.5
-        label.Parent = frame
-
-        local textConstraint = Instance.new("UITextSizeConstraint")
-        textConstraint.MaxTextSize = 24
-        textConstraint.MinTextSize = 14
-        textConstraint.Parent = label
-
-        local function updateHP()
-            if humanoid and humanoid.Parent then
-                local hp = humanoid.Health
-                local max = humanoid.MaxHealth
-                bar.Size = UDim2.new(hp / max, 0, 1, 0)
-                label.Text = formatNumber(hp) .. " / " .. formatNumber(max)
-            end
-        end
-
-        humanoid.HealthChanged:Connect(updateHP)
-        updateHP()
-    end
-
-    local function onCharacterAdded(character)
-        local humanoid = character:WaitForChild("Humanoid")
-        createBillboard(humanoid, character)
-    end
-
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr.Character then
-            onCharacterAdded(plr.Character)
-        end
-        plr.CharacterAdded:Connect(onCharacterAdded)
-    end
-
-    Players.PlayerAdded:Connect(function(plr)
-        plr.CharacterAdded:Connect(onCharacterAdded)
-    end)
-end)
-
--- ================================================================
---                            TAB: FARM OP
--- ================================================================
 
 local AutoFarm = window:AddTab("Farm Op")
 
@@ -888,9 +727,6 @@ autoEquipToolsFolder:AddSwitch("Fast Tools", function(Value)
     end
 end)
 
--- ================================================================
---                            TAB: STATS
--- ================================================================
 
 local estadisticas = window:AddTab("Stats")
 
@@ -1098,9 +934,6 @@ task.spawn(function()
     end
 end)
 
--- ================================================================
---                            TAB: KILLER
--- ================================================================
 
 local Killer = window:AddTab("Kill")
 
@@ -1990,10 +1823,6 @@ for _, option in ipairs(timeOptions) do
     timeDropdown:Add(option)
 end
 
--- ================================================================
---                            TAB: TELEPORT
--- ================================================================
-
 local teleport = window:AddTab("Teleport")
 
 local teleportLocations = {
@@ -2025,9 +1854,6 @@ for locationName, cframe in pairs(teleportLocations) do
     end)
 end
 
--- ================================================================
---                          TAB: CALCULATOR
--- ================================================================
 
 local Calculadora = window:AddTab("Calculator")
 
@@ -2151,10 +1977,6 @@ FolderDurabilidad:AddButton("Calculate Durability", function()
     end
 end)
 
--- ================================================================
---                          TAB: CALCULATE STATS
--- ================================================================
-
 local features = window:AddTab("Calculate Stats")
 
 local strengthStat = leaderstats:WaitForChild("Strength")
@@ -2259,9 +2081,6 @@ task.spawn(function()
     end
 end)
 
--- ================================================================
---                            TAB: CRYSTALS
--- ================================================================
 
 local pets = window:AddTab("Crystals")
 
@@ -2510,10 +2329,6 @@ pets:AddSwitch("Auto Buy Ultimates", function(bool)
     end
 end)
 
--- ================================================================
---                            TAB: ROCK
--- ================================================================
-
 local farmTab = window:AddTab("Rock")
 farmTab:AddLabel("Rock Farming")
 
@@ -2566,10 +2381,6 @@ for rockName, neededDurability in pairs(rockSwitches) do
         end
     end)
 end
-
--- ================================================================
---                            TAB: GIFT
--- ================================================================
 
 local Gift = window:AddTab("Gift")
 
@@ -2691,28 +2502,19 @@ task.spawn(function()
     end
 end)
 
--- ================================================================
---                            TAB: CREDITS
--- ================================================================
 
 local Credits = window:AddTab("Credits")
 
 Credits:AddLabel("Professional Edition")
 Credits:AddLabel("Script Developed by:")
-Credits:AddLabel("MyersDev👑")
-Credits:AddLabel("All rights reserved © 2024")
-Credits:AddLabel("For bugs or suggestions visit our Discord server")
+Credits:AddLabel("MONARCAnSXULL")
+Credits:AddLabel("PRIMER SCRIPT SEVERUS")
+Credits:AddLabel("SXULL ON TOP")
 
--- ================================================================
---                          FINAL MESSAGE
--- ================================================================
 
 print("╔══════════════════════════════════════════════════════════╗")
-print("║          Muscle Legends Companion Loaded!               ║")
-print("║                 Version: 4.0.0                          ║")
-print("║               Developed by: MyersDev                    ║")
+print("║          Muscle Legends VAMOS POR MÁS!               ║")
+print("║                 Version: 1.0                        ║")
+print("║               Developed by: MON4RCA                  ║")
 print("╚══════════════════════════════════════════════════════════╝")
 
--- ================================================================
---                          AUTOEXEC COMPLETE
--- ================================================================
