@@ -5,7 +5,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
 local success, data = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/MONARCA26X/MONARCA-Whitelist-/refs/heads/main/whitelist.json")
+    return game:HttpGet("https://raw.githubusercontent.com/MONARCA26X/MONARCA-Whitelist-/refs/heads/main/Whitelist.json")
 end)
 
 if not success then
